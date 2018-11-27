@@ -1,28 +1,59 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavLink,
+  NavItem} from 'reactstrap';
+import Search from './Search';
+import Home from './Home';
+
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
   }
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+  render(){
+    return (
+    <Router>
+      <div id="background">
+      <div className="container">
+        <Navbar color="light" light expand="md">
+          <NavbarBrand >
+          <Link className="text" to="/">Home</Link>
+          </NavbarBrand>
+          <NavbarToggler onClick={this.toggle}  />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar >
+              <NavItem>
+                <NavLink>
+                <Link className="text" to="/search">search</Link>
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+        <Route exact path="/" component={Home} />
+        <Route path="/search" component={Search} />
+      </div>
+    </Router>
+  );
+}
 }
 
 export default App;
